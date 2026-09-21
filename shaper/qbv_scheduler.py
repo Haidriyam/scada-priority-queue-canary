@@ -4,7 +4,7 @@ Enforces deterministic transmission windows via Gate Control Lists (GCL).
 """
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from collections import deque
 
 
@@ -79,7 +79,7 @@ class TimeAwareShaper:
         pkt: Packet = q.popleft()
         tx_duration_us = pkt.size_bytes / self.bytes_per_us
 
-        # Transmission time must not cross into the next GCL window (guard band simulation)
+        # Transmission time simulation
         self.current_time_us += tx_duration_us
         latency_us = self.current_time_us - pkt.arrival_time_us
         deadline_met = latency_us <= pkt.max_latency_us
